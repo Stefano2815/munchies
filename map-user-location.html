@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Places Searchbox</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcs_1FvGioa8G3MpoqV3Hj-sMjhWCEl_Y&libraries=places&callback=initAutocomplete"
+         async defer></script>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 50%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 15px 15px 15px 15px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box" value="">
+    <div id="map"></div>
+    <div id="info"></div>
+
+      <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+<script>
+  var map;
+  var result;
+  var location1;
+
+
+  // var string1
+ // Initialize Firebase
+ var config = {
+   apiKey: "AIzaSyDJ77mOVNunOH2Lp5us5b8MmruYaL-CLmA",
+   authDomain: "munchies-24f68.firebaseapp.com",
+   databaseURL: "https://munchies-24f68.firebaseio.com",
+   projectId: "munchies-24f68",
+   storageBucket: "",
+   messagingSenderId: "959784989023"
+ };
+ firebase.initializeApp(config);
+
+ $("#pac-input").on("change", function(){
+  var searchWord = $("#pac-input").val();
+ var database = firebase.database().ref("dispensaries").orderByChild("city")
+ database.equalTo(searchWord).once("value").then(function(snapshot){
+   var dependencies = snapshot.val()
+   console.log(dependencies)
+   result = [];
+   for (var key in dependencies) {
+    // $("#info").append(dependencies[key]['name'] + "<br>");
+     //result.push(dependencies[key]['name']);
+     //$("#info").append(dependencies[key]['lat']);
+     result.push(dependencies[key]['lat']);
+     //$("#info").append(dependencies[key]['lng'] + "<br>");
+     result.push(dependencies[key]['lng']);
+   }
+   console.log(result);
+
+   location1 = {lng: parseFloat(result[0]), lat: parseFloat(result[1])};
+   //console.log(location1)
+  //string1 = location1.lat + "," +location1.lng;
+
+}, function(errorObject) {
+     console.log("Errors handled: " + errorObject.code);
+   });
+ });
+
+
+
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      function initAutocomplete() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+         function callback(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+          createMarker(results[i]);
+        }
+      }
+    } 
+
+/*function createMarker(place) {
+var placeLoc = place.geometry.location;
+
+var marker = new google.maps.Marker({
+  map: map, 
+  position: place.geometry.location
+  
+});
+}*/
+
+
+       var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+  
+  
+                     
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        }); 
+        marker = new google.maps.Marker({
+                            position:{lat: 34.140361, lng: -118.383611},
+                            map: map,
+                            title: 'Hello World!'
+                            });
+                            var marker0 = new google.maps.Marker({
+                        position: { lat: 34.1403471, lng: -118.3837512 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                    var marker1 = new google.maps.Marker({
+                        position: { lat: 34.0442797, lng: -118.4323648 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+        
+      } 
+     
+      //function createWeedMarker(location1) {
+      //var placeLoc = place.geometry.location;
+      
+      /*var marker = new google.maps.Marker({
+        
+        map: map, 
+        position: location1,
+       
+      });
+      marker.setMap(map);
+
+        
+      }*/
+</script>
+
+
+
+
+</body>
+
+</html>

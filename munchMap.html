@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Places Searchbox</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcs_1FvGioa8G3MpoqV3Hj-sMjhWCEl_Y&libraries=places&callback=initAutocomplete"
+        async defer></script>
+        <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #description {
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+        }
+
+        #infowindow-content .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+        #map #infowindow-content {
+            display: inline;
+        }
+
+        .pac-card {
+            margin: 10px 10px 0 0;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            font-family: Roboto;
+        }
+
+        #pac-container {
+            padding-bottom: 12px;
+            margin-right: 12px;
+        }
+
+        .pac-controls {
+            display: inline-block;
+            padding: 5px 11px;
+        }
+
+        .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+        #pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 15px 15px 15px 15px;
+            text-overflow: ellipsis;
+            width: 400px;
+        }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+        #title {
+            color: #fff;
+            background-color: #4d90fe;
+            font-size: 25px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+
+        #target {
+            width: 345px;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box" value="">
+    <div id="map"></div>
+    <div id="info"></div>
+    <script>
+   
+        var map
+        var result
+        var location1
+
+        // This example adds a search box to a map, using the Google Place Autocomplete
+        // feature. People can enter geographical searches. The search box will return a
+        // pick list containing a mix of places and predicted search terms.
+
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+        function initAutocomplete() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 39.8283,  lng: -98.5795}, 
+                zoom: 5,
+                mapTypeId: 'roadmap'
+            });
+
+            
+            // Create the search box and link it to the UI element.
+            var input = document.getElementById('pac-input');
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+            // Bias the SearchBox results towards current map's viewport.
+            map.addListener('bounds_changed', function () {
+                searchBox.setBounds(map.getBounds());
+            })
+        
+            var infowindow = new google.maps.InfoWindow({
+          content: title,
+        });
+
+                    var markers = [];
+                    // Listen for the event fired when the user selects a prediction and retrieve
+                    // more details for that place.
+                    searchBox.addListener('places_changed', function () {
+                        var places = searchBox.getPlaces();
+
+                        if (places.length == 0) {
+                            return;
+                        }
+
+                        // Clear out the old markers.
+                        markers.forEach(function (marker) {
+                            marker.setMap(null);
+                        });
+                        markers = [];
+
+                        // For each place, get the icon, name and location.
+                        var bounds = new google.maps.LatLngBounds();
+                        places.forEach(function (place) {
+                            if (!place.geometry) {
+                                console.log("Returned place contains no geometry");
+                                return;
+                            }
+                            marker = new google.maps.Marker({
+                            position:{lat: 34.140361, lng: -118.383611},
+                            map: map,
+                            title: 'Hello World!'
+                            });
+                            var marker0 = new google.maps.Marker({
+                        position: { lat: 34.1403471, lng: -118.3837512 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                    var marker1 = new google.maps.Marker({
+                        position: { lat: 34.0442797, lng: -118.4323648 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                    var marker2 = new google.maps.Marker({
+                        position: { lat: 34.0354029, lng: -118.3670099 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                    var marker3 = new google.maps.Marker({
+                        position: { lat: 34.0438973, lng: -118.3086318 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                    var marker4 = new google.maps.Marker({
+                        position: { lat: 34.0445981, lng: -118.352096 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                    var marker5 = new google.maps.Marker({
+                        position: { lat: 33.9963099, lng: -118.4280272 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                    var marker6 = new google.maps.Marker({
+                        position: { lat: 33.9925454, lng: -118.4231952 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+                  /*  var marker7 = new google.maps.Marker({
+                        position: { lat: 33.9450117, lng: -118.3724138 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker8 = new google.maps.Marker({
+                        position: { lat: 34.0173479, lng: -118.1439611 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker9 = new google.maps.Marker({
+                        position: { lat: 34.035696, lng: -118.250401 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker10 = new google.maps.Marker({
+                        position: { lat: 34.0344982, lng: -118.2164644 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker11 = new google.maps.Marker({
+                        position: { lat: 34.0734353, lng: -118.1637715 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker12 = new google.maps.Marker({
+                        position: { lat: 34.0216046, lng: -118.3290906 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker13 = new google.maps.Marker({
+                        position: { lat: 33.9619254, lng: -118.4207356 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker14 = new google.maps.Marker({
+                        position: { lat: 33.98485, lng: -118.278649 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker15 = new google.maps.Marker({
+                        position: { lat: 34.1403471, lng: -118.3837512 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker16 = new google.maps.Marker({
+                        position: { lat: 34.1530991, lng: -118.4687597 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker17 = new google.maps.Marker({
+                        position: { lat: 34.1363812, lng: -118.362165 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker18 = new google.maps.Marker({
+                        position: { lat: 34.1413307, lng: -118.372015 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker19 = new google.maps.Marker({
+                        position: { lat: 34.1492147, lng: -118.4398425 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker20 = new google.maps.Marker({
+                        position: { lat: 34.1343516, lng: -118.3602862 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker21 = new google.maps.Marker({
+                        position: { lat: 34.1418329, lng: -118.3879959 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker22 = new google.maps.Marker({
+                        position: { lat: 33.9908434, lng: -118.2562337 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker23 = new google.maps.Marker({
+                        position: { lat: 34.2009945, lng: -118.4258885 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker24 = new google.maps.Marker({
+                        position: { lat: 34.2094049, lng: -118.35357 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker25 = new google.maps.Marker({
+                        position: { lat: 34.3150079, lng: -118.4404127 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker26 = new google.maps.Marker({
+                        position: { lat: 33.9860423, lng: -118.2596455 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker27 = new google.maps.Marker({
+                        position: { lat: 33.7376845, lng: -118.2913613 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker28 = new google.maps.Marker({
+                        position: { lat: 34.0442797, lng: -118.4323648 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker29 = new google.maps.Marker({
+                        position: { lat: 34.1973579, lng: -118.5353165 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker30 = new google.maps.Marker({
+                        position: { lat: 34.228425, lng: -118.373787 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker31 = new google.maps.Marker({
+                        position: { lat: 33.93215, lng: -118.279095 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker32 = new google.maps.Marker({
+                        position: { lat: 34.0155309, lng: -118.2012532 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker33 = new google.maps.Marker({
+                        position: { lat: 34.0216046, lng: -118.3290906 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker34 = new google.maps.Marker({
+                        position: { lat: 33.9619254, lng: -118.4207356 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker35 = new google.maps.Marker({
+                        position: { lat: 33.791155, lng: -118.2482891 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker36 = new google.maps.Marker({
+                        position: { lat: 34.0300408, lng: -118.3897138 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker37 = new google.maps.Marker({
+                        position: { lat: 34.1403471, lng: -118.3837512 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker38 = new google.maps.Marker({
+                        position: { lat: 34.0376503, lng: -118.2575445 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker39 = new google.maps.Marker({
+                        position: { lat: 34.2130467, lng: -118.5007831 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker40 = new google.maps.Marker({
+                        position: { lat: 34.2901165, lng: -118.412149 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker41 = new google.maps.Marker({
+                        position: { lat: 33.782509, lng: -118.233228 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker42 = new google.maps.Marker({
+                        position: { lat: 33.985456, lng: -118.3118286 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker43 = new google.maps.Marker({
+                        position: { lat: 33.951768, lng: -118.277832 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker44 = new google.maps.Marker({
+                        position: { lat: 34.083677, lng: -118.2998125 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker45 = new google.maps.Marker({
+                        position: { lat: 34.002341, lng: -118.277761 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker46 = new google.maps.Marker({
+                        position: { lat: 34.2374698, lng: -118.3703608 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker47 = new google.maps.Marker({
+                        position: { lat: 33.9364035, lng: -118.2736522 },
+                        map: map,
+                        title: "WEED"
+                    });
+                    var marker48 = new google.maps.Marker({
+                        position: { lat: 34.1638419, lng: -118.3700182 },
+                        map: map,
+                        title: "WEED"
+                    }); */
+                            // Create a marker for each place.
+                            markers.push(new google.maps.Marker({
+                                map: map,
+                                
+                                title: place.name,
+                                position: place.geometry.location
+                            }));
+                            
+                            if (place.geometry.viewport) {
+                                // Only geocodes have viewport.
+                                bounds.union(place.geometry.viewport);
+                            } else {
+                                bounds.extend(place.geometry.location);
+                            }
+                        });
+                        map.fitBounds(bounds);
+
+                   
+            });
+        } 
+              
+</script>
+</body>
+
+</html>

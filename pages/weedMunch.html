@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Munch Map
+    </title>
+    <!--     Fonts and icons     -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../assets/css/material-kit.css?v=2.0.2">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+</head>
+
+<body class="signup-page ">
+    <nav class="navbar  navbar-transparent    navbar-absolute  navbar-expand-lg " color-on-scroll="100" id="sectionsNav">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" href="#">Munch Map</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="dropdown nav-item">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">apps</i>Options
+                        </button>
+                        <div class="dropdown-menu dropdown-with-icons">
+                            <a href="./munchies.html" class="dropdown-item">
+                                <i class="material-icons">layers</i> Munchies Home
+                            </a>
+                            <a href="./team.html" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> Munchies Team
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="" target="_blank" data-original-title="Follow us on Twitter">
+                            <i class="fab fa-twitter fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="" target="_blank" data-original-title="Like us on Facebook">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="" target="_blank" data-original-title="Follow us on Instagram">
+                            <i class="fab fa-instagram fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="page-header header-filter" filter-color="purple" style="background-image: url('../assets/img/gervfdfb.png'); background-size: cover; background-position: top center;">
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-12 ml-auto mr-auto">
+                            <div class="card card-signup">
+                                    <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <ul class="nav nav-pills nav-pills-success nav-pills-icons flex-column" role="tablist">
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="./munch-map.html">
+                                                <i class="material-icons">layers</i> MunchMap
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="#dispensary" role="tab" data-toggle="tab">
+
+                                                <i class="material-icons">local_hospital</i>Dispensary Search
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#restaurant" role="tab" data-toggle="tab">
+                                                <i class="material-icons">restaurant</i>Restaurant Search
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="tab-content">
+                                        <div class="tab-pane" id="munchmap" style="height: 400px;">
+                                            <div id="map" style="height: 100%;"></div>
+                                        </div>
+
+                                        <div class="tab-pane-active" id="dispensary" style="height: 400px;">
+                                                <input id="pac-input" class="form-control" type="text" placeholder="Search Box" style="background-color: aliceblue; width: 50%; padding: 15px;">
+                                                <div id="dispoMap" style="height: 100%"></div>
+                                        </div>
+                                        <div class="tab-pane" id="restaurant" style="height: 400px;">
+                                            <div id="foodMap" style="height: 100%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+        <footer class="footer ">
+            <div class="container">
+                <nav class="pull-left">
+                    <ul>
+                        <li>
+                            <a href="file:///C:/Users/HBO59/Desktop/MunchiesCo7-master/pages/munchies.html">
+                                Munchies
+                            </a>
+                        </li>
+                        <li>
+                            <a href="file:///C:/Users/HBO59/Desktop/MunchiesCoV2/pages/munch-map.html">
+                                Map
+                            </a>
+                        </li>
+                        <li>
+                            <a href="file:///C:/Users/HBO59/Desktop/MunchiesCo7-master/pages/team.html">
+                                Team
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright pull-right">
+                    &copy; 2018 by <a href="#" target="_blank">Munchies Co.</a> Feed The Beast Within.
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/jquery.min.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/bootstrap-material-design.js"></script>
+    <!-- Material Kit Core initialisations of plugins and Bootstrap Material Design Library -->
+    <script src="../assets/js/material-kit.js?v=2.0.2"></script>
+    <!--   mapsAPI   -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcs_1FvGioa8G3MpoqV3Hj-sMjhWCEl_Y&libraries=places&callback=initAutocomplete" async defer></script>
+    <!--   mapJS   -->
+    <script src="../assets/js/weedMap.js"></script>
+</body>
+
+</html>
